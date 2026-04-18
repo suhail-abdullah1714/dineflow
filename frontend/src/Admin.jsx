@@ -4,13 +4,15 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
+const BASE_URL = "https://smart-restaurant-backend-za29.onrender.com";
+
 function Admin() {
   const [orders, setOrders] = useState([]);
   const [clearing, setClearing] = useState(false);
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch("http://localhost:5000/orders");
+      const res = await fetch(`${BASE_URL}/orders`);
       const data = await res.json();
       setOrders(data);
     } catch (err) {
@@ -38,7 +40,7 @@ function Admin() {
     try {
       setClearing(true);
 
-      const res = await fetch("http://localhost:5000/orders", {
+      const res = await fetch(`${BASE_URL}/orders`, {
         method: "DELETE"
       });
 
