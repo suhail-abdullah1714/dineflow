@@ -4,14 +4,21 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*"
+  })
+);
 app.use(express.json());
 
-const url = "mongodb+srv://testuser:test123@cluster0.vzasjqy.mongodb.net/restaurantDB?retryWrites=true&w=majority";
+const MONGODB_URI =
+  process.env.MONGODB_URI ||
+  "mongodb+srv://testuser:test123@cluster0.vzasjqy.mongodb.net/restaurantDB?retryWrites=true&w=majority";
 
-mongoose.connect(url)
+mongoose
+  .connect(MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
+  .catch((err) => console.log("MongoDB connection error:", err));
 
 const OrderSchema = new mongoose.Schema({
   items: [
@@ -35,6 +42,11 @@ const Order = mongoose.model("Order", OrderSchema);
 app.post("/order", async (req, res) => {
   try {
     const items = req.body;
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: "Invalid order data" });
+    }
+
     const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
 
     const newOrder = new Order({
@@ -79,6 +91,8 @@ app.get("/", (req, res) => {
   res.send("Server is running...");
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

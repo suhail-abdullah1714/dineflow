@@ -180,7 +180,7 @@ function User() {
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:5000/order", {
+      const response = await fetch("https://smart-restaurant-backend-za29.onrender.com/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -339,7 +339,6 @@ function User() {
           </div>
         </section>
 
-        {/* Mobile category chips */}
         <section className="xl:hidden">
           <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {[
@@ -364,7 +363,6 @@ function User() {
         </section>
 
         <section className="grid grid-cols-1 gap-4 sm:gap-5 xl:grid-cols-[360px_minmax(0,1fr)]">
-          {/* Desktop cart only */}
           <aside className="hidden h-fit rounded-[26px] border border-black/5 bg-white p-5 shadow-xl xl:sticky xl:top-24 xl:block">
             <CartContent />
           </aside>
@@ -450,7 +448,6 @@ function User() {
         </section>
       </div>
 
-      {/* Mobile sticky cart bar */}
       <AnimatePresence>
         {cartCount > 0 && !mobileCartOpen && (
           <motion.div
@@ -475,7 +472,6 @@ function User() {
         )}
       </AnimatePresence>
 
-      {/* Mobile cart drawer */}
       <AnimatePresence>
         {mobileCartOpen && (
           <>
@@ -503,7 +499,6 @@ function User() {
         )}
       </AnimatePresence>
 
-      {/* Success popup */}
       <AnimatePresence>
         {showSuccessPopup && (
           <motion.div
